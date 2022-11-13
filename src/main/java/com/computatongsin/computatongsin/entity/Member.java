@@ -1,5 +1,6 @@
 package com.computatongsin.computatongsin.entity;
 
+import com.computatongsin.computatongsin.dto.req.MypageRequestDto;
 import com.computatongsin.computatongsin.security.Authority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -35,13 +36,13 @@ public class Member extends Timestamped {
     private Authority authority;
 
     // 관계성 읽기 전용 (허트가 잘 읽어갈 수 있도록 읽기 설정해줌)
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Heart> heartList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Board> boardList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Comments> commentsList = new ArrayList<>();
 
     public Member(String username, String password, String nickname, Authority authority) {
@@ -49,5 +50,9 @@ public class Member extends Timestamped {
         this.password = password;
         this.nickname = nickname;
         this.authority = authority;
+    }
+
+    public void update(MypageRequestDto mypageRequestDto) {
+        this.nickname = mypageRequestDto.getNickname();
     }
 }

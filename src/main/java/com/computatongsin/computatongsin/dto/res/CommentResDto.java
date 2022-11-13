@@ -24,6 +24,5 @@ public class CommentResDto {
         this.comment_id = comment.getId();
         this.author = comment.getAuthor();
         this.content = comment.getContent();
-
     }
 }

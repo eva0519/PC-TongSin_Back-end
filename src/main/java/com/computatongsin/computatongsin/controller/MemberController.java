@@ -2,10 +2,7 @@ package com.computatongsin.computatongsin.controller;
 
 import com.computatongsin.computatongsin.dto.ResponseDto;
 import com.computatongsin.computatongsin.dto.TokenDto;
-import com.computatongsin.computatongsin.dto.req.CheckidDto;
-import com.computatongsin.computatongsin.dto.req.LoginReqDto;
-import com.computatongsin.computatongsin.dto.req.SignupReqDto;
-import com.computatongsin.computatongsin.dto.req.TokenRequestDto;
+import com.computatongsin.computatongsin.dto.req.*;
 import com.computatongsin.computatongsin.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +32,18 @@ public class MemberController {
     // 토큰 재발급
     @PostMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto) {
-        System.out.println(tokenRequestDto);
         return ResponseEntity.ok(memberService.reissue(tokenRequestDto));
     }
 
-    // 아이디 중복확인
-    @PostMapping("/checkid")
-    public ResponseDto<?> checkId(@RequestBody CheckidDto checkidDto) {
-        return memberService.duplicateCheckId(checkidDto.getUsername());
+    // 아이디 중복확인  /check-id?username=뭐쥬?  - 작대기 안됨
+    @GetMapping("/check-id")
+    public ResponseDto<?> checkId(@RequestParam String username) {
+        return memberService.duplicateCheckId(username);
+    }
+
+    // 닉네임 중복확인 /check-id?nickname=뭐쥬?   - 작대기 안됨
+    @GetMapping("/check-nickname")
+    public ResponseDto<?> checkNickname(@RequestParam String nickname) {
+        return memberService.duplicateCheckNickname(nickname);
     }
 }

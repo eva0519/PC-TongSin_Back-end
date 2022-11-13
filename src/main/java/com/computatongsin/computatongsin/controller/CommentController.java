@@ -42,4 +42,16 @@ public class CommentController {
             @AuthenticationPrincipal MemberDetails memberDetails) {
         return commentService.deleteComment(id, memberDetails.getMember());
     }
+
+    // 댓글 불러오기
+    @GetMapping("/comments")
+    public ResponseDto<?> getCommentList() {
+        return commentService.getCommentList();
+    }
+
+    // 특정 게시글의 아이디로 댓글 리스트 불러오기
+    @GetMapping("/{id}/comments")
+    public ResponseDto<?> getTargetBoardCommentList(@PathVariable Long id) {
+        return commentService.getTargetBoardCommentList(id);
+    }
 }

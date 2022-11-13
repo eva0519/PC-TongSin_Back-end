@@ -55,7 +55,7 @@ public class WebSecurityConfig {
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 // 필요한 권한이 없이 접근하려 할때 403
 
-                // h2-console 설정 추가
+                // h2-console 설정 추가, 웹소캣 위한 frameOption disabled
                 .and()
                 .headers()
                 .frameOptions()
@@ -73,11 +73,19 @@ public class WebSecurityConfig {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 // CORS PUT, DELETE simple Request 제외한 요청 허용
                 .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+                // 채팅 API 요청 허용
+                .antMatchers(HttpMethod.POST, "/chat/**").permitAll()
                 // 테스트용 S3 이미지 업로드 허용
                 .antMatchers(HttpMethod.POST, "/api/images/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/videos/**").permitAll()
                 // 소셜 로그인 허용
                 .antMatchers(HttpMethod.POST, "/user/**").permitAll()
+                // 웹 소캣 채팅 허용
+                .antMatchers(HttpMethod.POST, "ws://localhost:8080/gs-guide-websocket/**").permitAll()
+                .antMatchers("/hello/**").permitAll()
+                .antMatchers("/topic/**").permitAll()
+                .antMatchers("/gs-guide-websocket/**").permitAll()
+                .antMatchers("/app/**").permitAll()
                 // 아래로는 다 인증, 인가 체크
                 .antMatchers(HttpMethod.POST).authenticated()
                 .antMatchers(HttpMethod.PUT).authenticated()
